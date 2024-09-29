@@ -1,0 +1,10 @@
+---
+- name: Configure static IP
+  copy:
+    content: |
+      interface eth0
+      static ip_address={{ item }}
+      static routers=10.25.3.1
+      static domain_name_servers=8.8.8.8
+    dest: /etc/dhcpcd.conf
+  with_items: "{{ cluster_static_ips }}"

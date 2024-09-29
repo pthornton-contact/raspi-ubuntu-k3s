@@ -1,0 +1,7 @@
+---
+- name: Initial setup of Raspberry Pi cluster
+  hosts: all
+  become: yes
+  roles:
+    - common
+    - network

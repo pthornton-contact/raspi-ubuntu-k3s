@@ -1,0 +1,15 @@
+---
+- name: Install k3s on Raspberry Pi cluster
+  hosts: control
+  become: yes
+  tasks:
+    - name: Install k3s
+      shell: curl -sfL https://get.k3s.io | sh -
+      args:
+        creates: /usr/local/bin/k3s
+    - name: Join workers to k3s cluster
+      hosts: workers
+      become: yes
+      tasks:
+        - name: Join K3s cluster
+          shell: curl -sfL https://get.k3s.io | K3S_URL=https://{{ groups['control'][0] }}:6443 K3S_TOKEN={{ hostvars[groups['control'][0]].node_token }} sh -
